@@ -1,0 +1,15 @@
+# Scenario 3 — Allow Same Namespace Only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: scenario-3-same-ns
+  namespace: edge-cases
+  annotations:
+    description: "Allow ingress only from pods in the SAME namespace"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}

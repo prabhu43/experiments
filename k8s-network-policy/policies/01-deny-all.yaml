@@ -1,0 +1,12 @@
+# Deny all ingress traffic to all pods in the ai-platform namespace.
+# This is the "lock everything down" baseline.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+  namespace: ai-platform
+spec:
+  podSelector: {}   # applies to ALL pods in the namespace
+  policyTypes:
+    - Ingress
+  # no ingress rules → all inbound traffic is denied

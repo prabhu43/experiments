@@ -1,0 +1,12 @@
+# Deny all egress traffic — WARNING: this breaks DNS resolution!
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-egress
+  namespace: ai-platform
+  annotations:
+    description: "Deny ALL egress traffic — breaks DNS resolution"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress

@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edge-cases
+---
+# A simple test pod in edge-cases namespace (acts as server)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  namespace: edge-cases
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  namespace: edge-cases
+spec:
+  selector:
+    app: server
+  ports:
+    - port: 80
+      targetPort: 80
+---
+# A client pod in edge-cases namespace (same ns test)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  namespace: edge-cases
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: nginx:1.27-alpine
+---
+# ml-ops namespace for cross-namespace tests
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ml-ops
+  labels:
+    name: ml-ops
+---
+# model-monitor pod in ml-ops namespace (cross-ns test)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-monitor
+  namespace: ml-ops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-monitor
+  template:
+    metadata:
+      labels:
+        app: model-monitor
+    spec:
+      containers:
+        - name: model-monitor
+          image: nginx:1.27-alpine
+---
+# drift-detector pod in ml-ops namespace
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drift-detector
+  namespace: ml-ops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drift-detector
+  template:
+    metadata:
+      labels:
+        app: drift-detector
+    spec:
+      containers:
+        - name: drift-detector
+          image: nginx:1.27-alpine

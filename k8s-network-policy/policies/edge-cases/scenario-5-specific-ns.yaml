@@ -1,0 +1,17 @@
+# Scenario 5 — Allow From Specific Namespace Only (ml-ops)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: scenario-5-specific-ns
+  namespace: edge-cases
+  annotations:
+    description: "Allow ingress ONLY from namespace labeled name=ml-ops"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ml-ops

@@ -1,0 +1,19 @@
+# Scenario 8 — Allow HTTP (80) From Same Namespace Only
+# AND Logic with ports: podSelector AND ports in the SAME entry
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: scenario-8-allow-http-same-ns
+  namespace: edge-cases
+  annotations:
+    description: "Allow TCP port 80 from same namespace only"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 80

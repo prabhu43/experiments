@@ -1,0 +1,10 @@
+# Kind cluster config with default CNI disabled (so we can install Calico)
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  disableDefaultCNI: true   # disable kindnet so Calico can manage networking
+  podSubnet: "192.168.0.0/16"  # Calico default pod CIDR
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker

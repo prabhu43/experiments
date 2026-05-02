@@ -1,0 +1,12 @@
+# Scenario 2 — Deny Everything (Default Deny)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: scenario-2-deny-all
+  namespace: edge-cases
+  annotations:
+    description: "Deny ALL ingress traffic — no ingress rules defined"
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
